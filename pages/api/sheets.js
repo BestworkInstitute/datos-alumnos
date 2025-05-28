@@ -28,16 +28,17 @@ export default async function handler(req, res) {
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
-      range: "A:BZ",
-    });
+      range: "A:AZ",
 
+    });
     const rows = response.data.values;
     if (!rows || rows.length === 0) {
       return res.status(404).json({ error: "La hoja está vacía." });
     }
 
-    const headers = rows[0];
-    const dataRows = rows.slice(1);
+    const headers = rows[1];         // toma la fila 2 como encabezados
+    const dataRows = rows.slice(2);  // toma desde la fila 3 en adelante como datos
+
 
     const matchingRows = dataRows.filter((row) => row[0] === rut); // Columna A = índice 0
 
